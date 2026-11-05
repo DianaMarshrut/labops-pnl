@@ -1,0 +1,26 @@
+{
+  "name": "labopsai-pnl",
+  "owner": {
+    "name": "labopsai"
+  },
+  "metadata": {
+    "description": "Капсула labopsai «П&Л» — отчёт о прибылях и убытках по начислениям с маржой и динамикой из Excel, Google Таблиц или МойСклад",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "pnl",
+      "source": "./plugins/pnl",
+      "description": "П&Л — отчёт о прибылях и убытках по начислениям с маржой и динамикой из Excel, Google Таблиц или МойСклад",
+      "version": "0.1.0",
+      "category": "productivity",
+      "keywords": [
+        "пнл",
+        "прибыль убытки",
+        "финансовый отчёт",
+        "маржа",
+        "финансы"
+      ]
+    }
+  ]
+}

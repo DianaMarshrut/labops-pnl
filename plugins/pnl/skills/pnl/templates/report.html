@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>П&Л — Отчёт о прибылях и убытках</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2F5FA;
+    --card: #FFFFFF;
+    --accent: #8B5CF6;
+    --accent-deep: #6D28D9;
+    --accent-soft: #ECE6FB;
+    --accent-border: #C4B5FD;
+    --text: #131514;
+    --muted: #556265;
+    --border: #E1E6EE;
+    --good: #15803D;
+    --bad: #B91C1C;
+    --subtotal-bg: #F8F6FF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 16px 56px; }
+  header { margin-bottom: 28px; }
+  .label {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    border: 1px solid var(--accent-border);
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 { margin: 0 0 4px; font-size: 26px; font-weight: 800; line-height: 1.2; }
+  .meta { color: var(--muted); font-size: 13px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+  .card h2 {
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+  th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--bg);
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pos { color: var(--good); font-weight: 600; }
+  .neg { color: var(--bad); font-weight: 600; }
+  .neutral { color: var(--muted); }
+  .na { color: var(--muted); font-style: italic; }
+  /* итоговые строки (маржа, прибыль) */
+  tr.subtotal td { background: var(--subtotal-bg); font-weight: 700; border-top: 1px solid var(--border); }
+  tr.total td { background: var(--accent-soft); font-weight: 800; color: var(--accent-deep); border-top: 2px solid var(--accent-border); }
+  .attention {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .attention p { margin: 4px 0; font-size: 14px; }
+  .attention p:first-child { font-weight: 700; color: var(--accent-deep); margin-bottom: 8px; }
+  .missing-note {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .missing-note strong { color: var(--text); }
+  footer { margin-top: 32px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="label">labopsai</div>
+    <h1>П&amp;Л</h1>
+    <!-- замени заглушки: период, дата, пометь «чистая прибыль» или «прибыль по учтённым статьям» -->
+    <p class="meta">Отчёт о прибылях и убытках · период · дата</p>
+  </header>
+
+  <!--
+    КАК ЗАПОЛНИТЬ ЭТОТ ШАБЛОН:
+    - Строки tr.subtotal — промежуточные итоги (валовая прибыль, операционная прибыль).
+    - Строка tr.total — итоговый результат.
+    - ВАЖНО: называй итоговую строку «Чистая прибыль» ТОЛЬКО если учтены налоги,
+      проценты и все прочие статьи. Иначе — «Прибыль по учтённым статьям» + список
+      в блоке «Не учтено» ниже.
+    - Если выручка = 0 → ставь «не применимо» в колонке % (класс na).
+    - Когда данных по статье нет вообще → не включай строку в таблицу, занеси в «Не учтено».
+  -->
+
+  <div class="attention">
+    <p>На что обратить внимание</p>
+    <!-- 3–5 выводов только из данных -->
+    <p>• Вывод 1</p>
+    <p>• Вывод 2</p>
+    <p>• Вывод 3</p>
+  </div>
+
+  <div class="card">
+    <h2>Отчёт о прибылях и убытках</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Статья</th>
+          <th class="num">Сумма, ₽</th>
+          <th class="num">Доля в выручке, %</th>
+          <th class="num">Динамика (м/м)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Выручка</td>
+          <td class="num">1 500 000</td>
+          <td class="num neutral">100%</td>
+          <td class="num pos">+8%</td>
+        </tr>
+        <tr>
+          <td>Себестоимость продаж</td>
+          <td class="num neg">600 000</td>
+          <td class="num">40%</td>
+          <td class="num neg">+5%</td>
+        </tr>
+        <!-- Промежуточный итог: валовая прибыль -->
+        <tr class="subtotal">
+          <td>Валовая прибыль</td>
+          <td class="num pos">900 000</td>
+          <td class="num">60%</td>
+          <td class="num pos">+10%</td>
+        </tr>
+        <tr>
+          <td>Аренда</td>
+          <td class="num neg">80 000</td>
+          <td class="num">5%</td>
+          <td class="num neutral">0%</td>
+        </tr>
+        <tr>
+          <td>ФОТ</td>
+          <td class="num neg">400 000</td>
+          <td class="num">27%</td>
+          <td class="num neg">+3%</td>
+        </tr>
+        <tr>
+          <td>Маркетинг</td>
+          <td class="num neg">50 000</td>
+          <td class="num">3%</td>
+          <td class="num pos">−10%</td>
+        </tr>
+        <!-- Промежуточный итог: операционная прибыль -->
+        <tr class="subtotal">
+          <td>Операционная прибыль</td>
+          <td class="num pos">370 000</td>
+          <td class="num">25%</td>
+          <td class="num pos">+15%</td>
+        </tr>
+        <tr>
+          <td>Налог (УСН 15%)</td>
+          <td class="num neg">55 500</td>
+          <td class="num">4%</td>
+          <td class="num neutral">—</td>
+        </tr>
+        <!-- Итог: называй «Чистая прибыль» только если все статьи учтены -->
+        <tr class="total">
+          <td>Прибыль по учтённым статьям</td>
+          <td class="num pos">314 500</td>
+          <td class="num">21%</td>
+          <td class="num pos">+18%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Блок «Не учтено» — заполни если какие-то статьи отсутствовали в данных -->
+    <div class="missing-note">
+      <strong>Не учтено (данных не было):</strong> проценты по кредитам, амортизация.
+      Итоговый показатель — «прибыль по учтённым статьям», не «чистая прибыль».
+    </div>
+  </div>
+
+  <footer>
+    labopsai · <a href="https://guides.labopsai.pro">guides.labopsai.pro</a>
+  </footer>
+</div>
+</body>
+</html>

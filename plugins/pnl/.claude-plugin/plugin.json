@@ -1,0 +1,17 @@
+{
+  "name": "pnl",
+  "version": "0.1.0",
+  "description": "П&Л — отчёт о прибылях и убытках по начислениям с маржой и динамикой из Excel, Google Таблиц или МойСклад",
+  "author": {
+    "name": "labopsai"
+  },
+  "homepage": "https://labopsai.pro",
+  "license": "MIT",
+  "keywords": [
+    "пнл",
+    "прибыль убытки",
+    "финансовый отчёт",
+    "маржа",
+    "финансы"
+  ]
+}
